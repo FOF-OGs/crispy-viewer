@@ -50,7 +50,7 @@ TODO
 
 [(Back to top)](#table-of-contents)
 
-Want to uninstall? No issues (sob).
+Want to uninstall? TODO
 
 ```sh
 TODO
