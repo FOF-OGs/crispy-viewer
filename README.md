@@ -6,7 +6,7 @@
 [![.NET 5.0.5](https://img.shields.io/badge/.NET-5.0.5-informational.svg)](https://devblogs.microsoft.com/dotnet/net-april-2021-updates/)
 [![Coverage Status](https://coveralls.io/repos/github/FOF-OGs/crispy-viewer/badge.svg?branch=)](https://coveralls.io/github/FOF-OGs/crispy-viewer)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![CI](https://github.com/FOF-OGs/crispy-viewer/actions/workflows/ci.yml/badge.svg)](https://github.com/FOF-OGs/crispy-viewer/actions/workflows/ci.yml)
+[![CI](https://github.com/FOF-OGs/crispy-viewer/actions/workflows/ci-main.yml/badge.svg)](https://github.com/FOF-OGs/crispy-viewer/actions/workflows/ci-main.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields)](http://makeapullrequest.com)
 
 Simple image viewer.
