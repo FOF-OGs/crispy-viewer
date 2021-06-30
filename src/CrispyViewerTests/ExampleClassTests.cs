@@ -8,7 +8,7 @@ namespace CrispyViewer.Tests
         public void Get1Test()
         {
             var exClass = new ExampleClass();
-            Assert.Equal(1, exClass.Get1());
+            Assert.Equal(2, exClass.Get1());
         }
     }
 }
