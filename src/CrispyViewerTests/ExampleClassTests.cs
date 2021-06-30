@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using CrispyViewer;
 
 namespace CrispyViewer.Tests
 {
