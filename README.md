@@ -60,6 +60,10 @@ TODO
 
 [(Back to top)](#table-of-contents)
 
+Branches:
+- Develop - daily builds
+- Main - stable releases
+
 Your contributions are always welcome! Please have a look at the [contribution guidelines](CONTRIBUTING.md) first. :tada:
 
 # License
