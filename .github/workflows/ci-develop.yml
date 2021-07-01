@@ -8,7 +8,61 @@ on:
 
 jobs:
 
-  dotnet_check:
+  test_renderer:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/RendererTests/
+   
+    - name: Test Renderer
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/RendererTests/
+ 
+    - name: Coveralls Renderer
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        parallel-finished: false
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/RendererTests/lcov.info
+        
+  test_crispy_viewer:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/RendererTests/
+   
+    - name: Test Renderer
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/RendererTests/
+ 
+    - name: Coveralls Renderer
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        parallel-finished: false
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/RendererTests/lcov.info
+
+  build:
     runs-on: windows-latest
     steps:
     - name: Checkout
@@ -26,11 +80,3 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       working-directory: ./src/
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      working-directory: ./src/
-    
-    - name: Publish
-      run: dotnet publish --no-restore -c Release /p:version=0.0.0 /p:build=1337 --output "./publish"
-      working-directory: ./src/CrispyViewer/
