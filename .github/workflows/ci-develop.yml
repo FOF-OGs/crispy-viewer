@@ -56,9 +56,20 @@ jobs:
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
-        parallel-finished: true
+        parallel: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./src/CrispyViewerTests/lcov.info
+        
+  coveralls:
+    runs-on: windows-latest
+    needs: [test_renderer, test_crispy_viewer]
+    steps:
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel-finished: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     runs-on: windows-latest
