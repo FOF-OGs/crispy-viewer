@@ -31,14 +31,30 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       working-directory: ./src/
-      
-    - name: Test
+   
+    - name: Test Renderer
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/RendererTests/
+ 
+    - name: Coveralls Renderer
+      uses: coverallsapp/github-action@master
+      with:
+        flag-name: "Unit"
+        parallel: true
+        parallel-finished: false
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/RendererTests/lcov.info
+   
+    - name: Test CrispyViewer
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
       working-directory: ./src/CrispyViewerTests/
  
-    - name: Coveralls
+    - name: Coveralls CrispyViewer
       uses: coverallsapp/github-action@master
       with:
+        flag-name: "Unit"
+        parallel: true
+        parallel-finished: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./src/CrispyViewerTests/lcov.info
       
