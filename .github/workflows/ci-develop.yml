@@ -23,11 +23,11 @@ jobs:
       run: dotnet restore
       working-directory: ./src/RendererTests/
    
-    - name: Test Renderer
+    - name: Test
       run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
       working-directory: ./src/RendererTests/
  
-    - name: Coveralls Renderer
+    - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         parallel: true
@@ -47,18 +47,18 @@ jobs:
       
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ./src/RendererTests/
+      working-directory: ./src/CrispyViewerTests/
    
-    - name: Test Renderer
+    - name: Test
       run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
-      working-directory: ./src/RendererTests/
+      working-directory: ./src/CrispyViewerTests/
  
-    - name: Coveralls Renderer
+    - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         parallel-finished: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./src/RendererTests/lcov.info
+        path-to-lcov: ./src/CrispyViewerTests/lcov.info
 
   build:
     runs-on: windows-latest
