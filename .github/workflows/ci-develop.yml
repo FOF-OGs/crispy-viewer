@@ -9,6 +9,7 @@ on:
 jobs:
 
   test_renderer:
+    name: Test Renderer
     runs-on: windows-latest
     steps:
     - name: Checkout
@@ -31,10 +32,12 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         parallel: true
+        flag-name: Renderer
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./src/RendererTests/lcov.info
         
   test_crispy_viewer:
+    name: Test CrispyViewer
     runs-on: windows-latest
     steps:
     - name: Checkout
@@ -56,11 +59,13 @@ jobs:
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
+        flag-name: CrispyViewer
         parallel: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./src/CrispyViewerTests/lcov.info
         
   coveralls:
+    name: Coveralls
     runs-on: windows-latest
     needs: [test_renderer, test_crispy_viewer]
     steps:
@@ -72,6 +77,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
+    name: Build
     runs-on: windows-latest
     steps:
     - name: Checkout
