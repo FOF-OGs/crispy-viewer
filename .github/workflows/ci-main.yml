@@ -6,8 +6,78 @@ on:
 
 jobs:
 
-  dotnet_full:
+  test_renderer:
+    name: Test Renderer
     runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/RendererTests/
+   
+    - name: Test
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/RendererTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        flag-name: Renderer
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/RendererTests/lcov.info
+        
+  test_crispy_viewer:
+    name: Test CrispyViewer
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/CrispyViewerTests/
+   
+    - name: Test
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/CrispyViewerTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        flag-name: CrispyViewer
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/CrispyViewerTests/lcov.info
+        
+  coveralls:
+    name: Coveralls
+    runs-on: windows-latest
+    needs: [test_renderer, test_crispy_viewer]
+    steps:
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel-finished: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        
+  publish:
+    name: Publish
+    runs-on: windows-latest
+    needs: coveralls
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -17,13 +87,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
-    - name: Bump version and push tag
-      id: tag_version
-      uses: mathieudutour/github-tag-action@v5.5
-      with:
-        default_bump: patch
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Restore dependencies
       run: dotnet restore
       working-directory: ./src/
@@ -31,33 +94,14 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       working-directory: ./src/
-   
-    - name: Test Renderer
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
-      working-directory: ./src/RendererTests/
- 
-    - name: Coveralls Renderer
-      uses: coverallsapp/github-action@master
-      with:
-        flag-name: "Unit"
-        parallel: true
-        parallel-finished: false
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./src/RendererTests/lcov.info
-   
-    - name: Test CrispyViewer
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
-      working-directory: ./src/CrispyViewerTests/
- 
-    - name: Coveralls CrispyViewer
-      uses: coverallsapp/github-action@master
-      with:
-        flag-name: "Unit"
-        parallel: true
-        parallel-finished: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./src/CrispyViewerTests/lcov.info
       
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v5.5
+      with:
+        default_bump: patch
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Publish
       run: dotnet publish --no-restore -c Release /p:version=${{ steps.tag_version.outputs.new_version }} /p:build=$GITHUB_RUN_ID --output "./publish"
       working-directory: ./src/CrispyViewer/
