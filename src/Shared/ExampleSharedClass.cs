@@ -4,15 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrispyViewer
+namespace Shared
 {
-    public class ExampleClass
+    public class ExampleSharedClass
     {
-
-        public int Get1()
-        {
-            return 2;
-        }
-
+        public int Get1() { return 1; }
     }
 }

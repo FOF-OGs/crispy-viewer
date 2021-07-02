@@ -8,34 +8,6 @@ on:
 
 jobs:
 
-  test_renderer:
-    name: Test Renderer
-    runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-        
-    - name: Setup
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-      
-    - name: Restore dependencies
-      run: dotnet restore
-      working-directory: ./src/RendererTests/
-   
-    - name: Test
-      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
-      working-directory: ./src/RendererTests/
- 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        parallel: true
-        flag-name: Renderer
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./src/RendererTests/lcov.info
-        
   test_crispy_viewer:
     name: Test CrispyViewer
     runs-on: windows-latest
@@ -63,11 +35,123 @@ jobs:
         parallel: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./src/CrispyViewerTests/lcov.info
+
+  test_file_loader:
+    name: Test FileLoader
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
         
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/FileLoaderTests/
+   
+    - name: Test
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/FileLoaderTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        flag-name: FileLoader
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/FileLoaderTests/lcov.info
+
+  test_renderer:
+    name: Test Renderer
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/RendererTests/
+   
+    - name: Test
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/RendererTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        flag-name: Renderer
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/RendererTests/lcov.info
+
+  test_shared:
+    name: Test Shared
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/SharedTests/
+   
+    - name: Test
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/SharedTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        flag-name: Shared
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/SharedTests/lcov.info
+
+  test_viewer:
+    name: Test Viewer
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+      
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./src/ViewerTests/
+   
+    - name: Test
+      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./src/ViewerTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        parallel: true
+        flag-name: Viewer
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/ViewerTests/lcov.info
+
   coveralls:
     name: Coveralls
     runs-on: windows-latest
-    needs: [test_renderer, test_crispy_viewer]
+    needs: [test_crispy_viewer, test_file_loader, test_renderer, test_shared, test_viewer]
     steps:
 
     - name: Coveralls
