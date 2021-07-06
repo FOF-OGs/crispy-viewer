@@ -7,7 +7,6 @@ namespace CrispyViewer.Tests
         [Fact()]
         public void InitTest()
         {
-            var view = new CrispyView();
             Assert.True(true, "This test needs an implementation");
         }
     }

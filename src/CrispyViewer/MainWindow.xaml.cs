@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Renderer;
+using Renderer.Interfaces;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Viewer.Interfaces;
+using Viewer.Viewers;
 
 namespace CrispyViewer
 {
@@ -20,9 +11,31 @@ namespace CrispyViewer
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private IRenderer _renderer;
+        private IViewer _viewer;
+
         public MainWindow()
         {
             InitializeComponent();
+            _renderer = new MainRenderer(ViewImage.Width, ViewImage.Height);
+            _viewer = new BMPViewer(_renderer);
+            Load();
+            ShowImage();
         }
+
+        private void Load()
+        {
+            //var loader = new BMPLoader();
+            //var file = loader.Load(string.Empty);
+            //_viewer.Load(file);
+        }
+
+        private void ShowImage()
+        {
+            _viewer.Prepare();
+            ViewImage.Source = _renderer.GetImageSource();
+        }
+
     }
 }
