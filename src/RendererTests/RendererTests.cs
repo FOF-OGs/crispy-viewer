@@ -6,7 +6,7 @@ namespace Renderer.Tests
         [Fact()]
         public void RenderTest()
         {
-            var renderer = new SimpleRenderer();
+            var renderer = new MainRenderer(100, 100);
             Assert.True(true, "This test needs an implementation");
         }
     }

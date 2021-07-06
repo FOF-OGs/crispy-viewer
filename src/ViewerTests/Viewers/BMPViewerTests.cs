@@ -9,7 +9,7 @@ namespace ImageViewer.Viewers.Tests
         [Fact()]
         public void LoadTest()
         {
-            var renderer = new SimpleRenderer();
+            var renderer = new MainRenderer(100, 100);
             var viewer = new BMPViewer(renderer);
             Assert.True(true, "This test needs an implementation");
         }
