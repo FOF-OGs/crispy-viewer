@@ -15,11 +15,11 @@ namespace CrispyViewer
         private IRenderer _renderer;
         private IViewer _viewer;
 
-        public MainWindow()
+        public MainWindow(IRenderer renderer)
         {
             InitializeComponent();
-            _renderer = new MainRenderer(ViewImage.Width, ViewImage.Height);
-            _viewer = new BMPViewer(_renderer);
+            _renderer = renderer;
+            _viewer = new BMPViewer(renderer);
             Load();
             ShowImage();
         }
