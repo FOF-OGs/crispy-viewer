@@ -18,6 +18,7 @@ namespace FileLoader.ImageLoaders
                 var resolutions = GetBMPResolutions(bmpBytes);
                 bmpFile.Width = resolutions.Item1;
                 bmpFile.Height = resolutions.Item2;
+                bmpFile.Size = GetFileSize(bmpBytes);
             }
             catch
             {
@@ -38,9 +39,21 @@ namespace FileLoader.ImageLoaders
                        
         }
 
-        public RGB[] GetBMPColors(byte[] BMPBytes)
+        public int GetFileSize(byte[] BMPBytes)
         {
-            return null;
+            var resolutions = GetBMPResolutions(BMPBytes);
+            var bitCountTable = new byte[2]; 
+            Array.Copy(BMPBytes, 28, bitCountTable,0,2);
+            var colorDepth = BitConverter.ToInt16(bitCountTable, 0);
+            return resolutions.Item1 * resolutions.Item2 * colorDepth;
+                
+        }
+
+        public RGB[] GetBMPColors(byte[] BMPBytes, int size)
+        {
+            var result = new RGB[size];
+
+            return result;
         }
 
     }
