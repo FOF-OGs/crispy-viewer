@@ -1,4 +1,5 @@
-﻿using Renderer;
+﻿using FileLoader.ImageLoaders;
+using Renderer;
 using Renderer.Interfaces;
 using System.Windows;
 using Viewer.Interfaces;
@@ -26,8 +27,8 @@ namespace CrispyViewer
 
         private void Load()
         {
-            //var loader = new BMPLoader();
-            //var file = loader.Load(string.Empty);
+            var loader = new BMPLoader();
+            var file = loader.Load(@"C:\Users\szymon\Desktop\bmp2.bmp");
             //_viewer.Load(file);
         }
 
