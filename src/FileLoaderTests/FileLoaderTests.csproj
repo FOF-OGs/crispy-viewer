@@ -29,4 +29,10 @@
     <ProjectReference Include="..\FileLoader\FileLoader.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\dummy.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
